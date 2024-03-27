@@ -1,17 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import LoadingLayout from "./LoadingLayout";
 
 function ProtectedRoute() {
-  const { isAuth, isLoading } = useAuth();
+  const { isAuth } = useAuth();
 
-  console.log({ isAuth, isLoading });
-
-  return (
-    <LoadingLayout isLoading={isLoading}>
-      {isAuth ? <Outlet /> : <Navigate to="/login" replace />}
-    </LoadingLayout>
-  );
+  return isAuth ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
 export default ProtectedRoute;
