@@ -2,7 +2,10 @@ import { z } from "zod";
 
 export const LoginUserSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1, "The password is required"),
+  password: z
+    .string()
+    .min(1, "The password is required")
+    .min(6, "The password should have at least 6 characters"),
 });
 
 export const RegisterUserSchema = LoginUserSchema.partial().extend({

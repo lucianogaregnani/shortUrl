@@ -5,4 +5,6 @@ export interface AuthContextType {
   isLoading: boolean;
   changeIsAuth: (value: boolean) => void;
   changeToken: (newToken: string) => void;
+  changeError: (newError: string) => void;
+  changeLoading: (newLoading: boolean) => void;
 }

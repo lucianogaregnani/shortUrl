@@ -2,37 +2,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect, useState } from "react";
 import { AuthContextType } from "../types/AuthContext";
-import { axiosInstance } from "../services/axios";
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
   isAuth: false,
   accesToken: "",
   isLoading: true,
   error: "",
   changeIsAuth: () => {},
   changeToken: () => {},
+  changeError: () => {},
+  changeLoading: () => {},
 });
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuth, setIsAuth] = useState(false);
+  const isAuthLocal = localStorage.getItem("isAuth");
+  const [isAuth, setIsAuth] = useState(isAuthLocal === "true");
   const [accesToken, setAccesToken] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!accesToken) {
-      axiosInstance
-        .get("/auth/refresh")
-        .then((res) => {
-          setAccesToken(res.data.token);
-          setIsAuth(true);
-        })
-        .catch((err: any) => {
-          setError(err.response.data);
-        });
+    if (!isAuthLocal) {
+      localStorage.setItem("isAuth", "false");
     }
-    setIsLoading(false);
   }, []);
+
+  const changeLoading = (newLoading: boolean) => {
+    setIsLoading(newLoading);
+  };
+
+  const changeError = (newError: string) => {
+    setError(newError);
+  };
 
   const changeIsAuth = (newAuth: boolean) => {
     setIsAuth(newAuth);
@@ -45,6 +46,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
+        changeError,
+        changeLoading,
         isAuth,
         changeIsAuth,
         accesToken,
