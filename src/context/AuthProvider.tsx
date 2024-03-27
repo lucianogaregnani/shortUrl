@@ -29,11 +29,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         })
         .catch((err: any) => {
           setError(err.response.data);
-        })
-        .finally(() => {
-          setIsLoading(false);
         });
     }
+    setIsLoading(false);
   }, []);
 
   const changeIsAuth = (newAuth: boolean) => {
