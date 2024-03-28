@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 
 function ProtectedRoute() {
   const { isAuth } = useAuth();
-
+  console.log(isAuth);
   return isAuth ? <Outlet /> : <Navigate to="/login" replace />;
 }
 

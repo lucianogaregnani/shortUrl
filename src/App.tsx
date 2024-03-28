@@ -4,14 +4,18 @@ import AuthProvider from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import "./index.css";
+import Register from "./pages/Register";
+import RedirectRoute from "./components/RedirectRoute";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" />
+          <Route element={<RedirectRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
           </Route>

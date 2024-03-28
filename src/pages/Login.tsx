@@ -1,25 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SubmitHandler, useForm } from "react-hook-form";
-import FormLayout from "../components/FormLayout";
-import { LoginUserSchema, LoginUserSchemaType } from "../schemas/Auth.schemas";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import Form from "../components/Form";
+import { LoginUserSchema } from "../schemas/Auth.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { axiosInstance } from "../services/axios";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Input from "../components/Input";
+import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 function Login() {
   const {
-    register,
     handleSubmit,
+    register,
     formState: { errors },
-  } = useForm<LoginUserSchemaType>({
+  } = useForm({
     resolver: zodResolver(LoginUserSchema),
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { changeIsAuth } = useAuth();
 
-  const handleSubmitForm: SubmitHandler<LoginUserSchemaType> = (data) => {
+  const handleSubmitForm: SubmitHandler<FieldValues> = (data) => {
     const { email, password } = data;
     axiosInstance
       .post("/auth/login", {
@@ -28,6 +31,7 @@ function Login() {
       })
       .then(() => {
         localStorage.setItem("isAuth", "true");
+        changeIsAuth(true);
         navigate("/");
       })
       .catch((err: any) => {
@@ -40,55 +44,29 @@ function Login() {
   };
 
   return (
-    <FormLayout>
-      <form
-        onSubmit={handleSubmit(handleSubmitForm)}
-        className="w-[90%] xl:w-[35%] text-center flex flex-col gap-5 text-2xl border-2 shadow-[0_0px_30px_5px_rgba(0,0,0,0.1)] py-10 px-10 rounded-2xl"
-      >
-        {error && <span className="text-red-500 font-medium">{error}</span>}
-        <>
-          <label className="flex flex-col relative">
-            <span className="text-3xl font-bold text-indigo-600">Email</span>
-            <input
-              type="text"
-              placeholder="name@gmail.com"
-              defaultValue=""
-              className="p-2 pl-4 border-2 rounded-3xl"
-              {...register("email")}
-            />
-            {errors.email && (
-              <span className="text-red-500 font-medium text-lg absolute bottom-[-1.8rem] left-1">
-                {errors.email.message}
-              </span>
-            )}
-          </label>
-          <label className="flex flex-col relative">
-            <span className="text-3xl font-bold text-indigo-600">Password</span>
-            <input
-              type="password"
-              placeholder="your password"
-              defaultValue=""
-              className="p-2 pl-4 border-2 rounded-3xl"
-              {...register("password")}
-            />
-            {errors.password && (
-              <span className="text-red-500 font-medium text-lg absolute bottom-[-1.8rem] left-1">
-                {errors?.password?.message}
-              </span>
-            )}
-          </label>
-          <p className="text-slate-400 mt-4 text-base">
-            Do you not have an account?{" "}
-            <a href="" className="text-indigo-500 font-medium hover:underline">
-              Sign up
-            </a>
-          </p>
-          <button className="hover:bg-indigo-500 transition-all bg-indigo-600 text-white font-semibold p-2 rounded-full">
-            Submit
-          </button>
-        </>
-      </form>
-    </FormLayout>
+    <Form
+      onSubmit={handleSubmitForm}
+      handleSubmit={handleSubmit}
+      error={error}
+      type="login"
+    >
+      <Input
+        type="text"
+        placeholder="name@gmail.com"
+        inputName="email"
+        labelText="Email"
+        errorMessage={errors.email?.message?.toString()}
+        register={register}
+      />
+      <Input
+        type="password"
+        placeholder="your password"
+        inputName="password"
+        labelText="Password"
+        errorMessage={errors.password?.message?.toString()}
+        register={register}
+      />
+    </Form>
   );
 }
 
