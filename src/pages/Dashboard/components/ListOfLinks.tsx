@@ -1,35 +1,28 @@
-import { useEffect, useState } from "react";
-import { linkApi } from "../../../services/linksApi";
-import useAuth from "../../../hooks/useAuth";
+import LoadingLayout from "../../../components/LoadingLayout";
+import useFetch from "../../../hooks/useFetch";
 import { Link } from "../../../types/Link";
 
 function ListOfLinks() {
-  const [links, setLinks] = useState<Link[]>([]);
-  const { accesToken, error } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading, error } = useFetch<Link[]>({
+    method: "GET",
+    url: "/link",
+  });
 
-  useEffect(() => {
-    if (accesToken) {
-      linkApi.getAll(accesToken).then((res) => {
-        setIsLoading(false);
-        setLinks(res);
-      });
-    }
-  }, [accesToken]);
-
-  return isLoading ? (
-    <div>Cargando...</div>
-  ) : (
-    <div>
-      {error && <p>Hubo un error</p>}
-      <div>
-        {links?.length === 0 ? (
-          <p>No hay links para mostrar</p>
-        ) : (
-          links.map((link) => <div key={link._id}>{link.longLink}</div>)
-        )}
-      </div>
-    </div>
+  return (
+    <LoadingLayout isLoading={isLoading}>
+      <section>
+        {error && <p>Hubo un error</p>}
+        <section>
+          {data?.length === 0 ? (
+            <p>No hay links para mostrar</p>
+          ) : (
+            data?.map((link) => (
+              <article key={link._id}>{link.longLink}</article>
+            ))
+          )}
+        </section>
+      </section>
+    </LoadingLayout>
   );
 }
 
