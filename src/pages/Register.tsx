@@ -4,10 +4,10 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { RegisterUserSchema } from "../schemas/Auth.schemas";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../services/axios";
 import Input from "../components/Input";
 import axios from "axios";
 import Form from "../components/Form";
+import { authApi } from "../services/authApi";
 
 function Register() {
   const {
@@ -22,11 +22,8 @@ function Register() {
 
   const handleSubmitForm: SubmitHandler<FieldValues> = (data) => {
     const { email, password } = data;
-    axiosInstance
-      .post("/auth/register", {
-        email,
-        password,
-      })
+    authApi
+      .register({ email, password })
       .then(() => {
         navigate("/login");
       })

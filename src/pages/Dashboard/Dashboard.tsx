@@ -1,5 +1,12 @@
+import ListOfLinks from "./components/ListOfLinks";
+
 function Dashboard() {
-  return <h1>Hola wenas</h1>;
+  return (
+    <main className="flex justify-center items-center h-screen">
+      <h1 className="text-3xl text-indigo-600 font-bold">My Links</h1>
+      <ListOfLinks />
+    </main>
+  );
 }
 
 export default Dashboard;

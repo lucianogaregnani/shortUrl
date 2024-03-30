@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect, useState } from "react";
 import { AuthContextType } from "../types/AuthContext";
+import { authApi } from "../services/authApi";
 
 export const AuthContext = createContext<AuthContextType>({
   isAuth: false,
@@ -23,9 +24,20 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isAuthLocal) {
+      console.log({ isAuthLocal });
       localStorage.setItem("isAuth", "false");
     }
-  }, []);
+    if (isAuth && !accesToken) {
+      authApi
+        .refreshToken()
+        .then((res) => {
+          setAccesToken(res.token);
+        })
+        .catch((err) => {
+          setError(err.error);
+        });
+    }
+  }, [isAuth]);
 
   const changeLoading = (newLoading: boolean) => {
     setIsLoading(newLoading);

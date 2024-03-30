@@ -18,7 +18,7 @@ function Form({ children, onSubmit, error, type, handleSubmit }: FormProps) {
     <main className="h-screen flex items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-[90%] lg:w-[40%] text-center flex flex-col gap-5 text-2xl border-2 shadow-[0_0px_30px_5px_rgba(0,0,0,0.1)] py-10 px-10 rounded-2xl"
+        className="w-[90%] lg:w-[40%] text-center flex flex-col gap-6 text-2xl border-2 shadow-[0_0px_30px_5px_rgba(0,0,0,0.1)] py-10 px-10 rounded-2xl"
       >
         {error && <span className="text-red-500 font-medium">{error}</span>}
         {children}

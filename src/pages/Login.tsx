@@ -3,12 +3,11 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Form from "../components/Form";
 import { LoginUserSchema } from "../schemas/Auth.schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { axiosInstance } from "../services/axios";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "../components/Input";
-import { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { authApi } from "../services/authApi";
 
 function Login() {
   const {
@@ -18,17 +17,13 @@ function Login() {
   } = useForm({
     resolver: zodResolver(LoginUserSchema),
   });
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { changeIsAuth } = useAuth();
+  const { changeIsAuth, changeError, error } = useAuth();
 
   const handleSubmitForm: SubmitHandler<FieldValues> = (data) => {
     const { email, password } = data;
-    axiosInstance
-      .post("/auth/login", {
-        email,
-        password,
-      })
+    authApi
+      .login({ email, password })
       .then(() => {
         localStorage.setItem("isAuth", "true");
         changeIsAuth(true);
@@ -36,9 +31,9 @@ function Login() {
       })
       .catch((err: any) => {
         if (axios.isAxiosError(err)) {
-          setError(err.response?.data?.error);
+          changeError(err.response?.data?.error);
         } else {
-          setError(err.message);
+          changeError(err.message);
         }
       });
   };
