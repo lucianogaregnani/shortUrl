@@ -15,7 +15,7 @@ function ListOfLinks() {
         {error ? (
           <p>Hubo un error</p>
         ) : (
-          <section className="flex flex-col gap-2">
+          <section className="flex flex-wrap justify-center gap-2">
             {data?.length === 0 ? (
               <p>No hay links para mostrar</p>
             ) : (

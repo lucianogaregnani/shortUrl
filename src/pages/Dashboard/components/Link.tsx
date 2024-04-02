@@ -1,22 +1,23 @@
+import Button from "../../../components/Button";
 import { Link } from "../../../types/Link";
+
+const PAGE_URL = import.meta.env.PAGE_URL || "http://localhost:5173/";
 
 function LinkCard({ longLink, shortLink, _id }: Link) {
   return (
-    <article className="border-2 border-slate-400 shadow-[0_0px_5px_0px_rgba(0,0,0,0.1)] flex items-center gap-4 p-3 rounded-2xl">
+    <article className="flex flex-col border-[1px] border-slate-200 items-center gap-4 p-3 rounded-2xl">
       <input
         type="text"
         value={longLink}
         className="border-2 w-full p-2 rounded-2xl"
       />
       <span className="b bg-indigo-500 p-2 rounded-2xl text-white font-bold">
-        {shortLink}
+        {`${PAGE_URL}${shortLink}`}
       </span>
-      <button className="bg-green-400 p-2 rounded-2xl text-white font-bold">
-        Editar
-      </button>
-      <button className="bg-red-500 p-2 rounded-2xl text-white font-bold">
-        Eliminar
-      </button>
+      <div className="flex gap-2">
+        <Button color="green">Edit</Button>
+        <Button color="red">Delete</Button>
+      </div>
     </article>
   );
 }
