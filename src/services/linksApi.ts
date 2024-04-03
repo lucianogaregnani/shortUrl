@@ -7,11 +7,8 @@ export const linkApi = {
 
     return data;
   },
-  getByShortLink: async (token: string, shortLink: string) => {
-    const { data } = await axiosInstance.get(
-      `/link/${shortLink}`,
-      getHeaders(token)
-    );
+  getByShortLink: async (shortLink: string) => {
+    const { data } = await axiosInstance.get(`/link/${shortLink}`);
 
     return data;
   },

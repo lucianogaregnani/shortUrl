@@ -7,6 +7,7 @@ import "./index.css";
 import Register from "./pages/Register";
 import RedirectRoute from "./components/RedirectRoute";
 import LinksProvider from "./context/LinksProvider";
+import RedirectLink from "./pages/RedirectLink";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <LinksProvider>
         <BrowserRouter>
           <Routes>
+            <Route path=":shortLink" element={<RedirectLink />} />
             <Route element={<RedirectRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
