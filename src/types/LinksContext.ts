@@ -5,6 +5,5 @@ export interface LinkContextType {
   updateLink: (longLink: string, linkId: string) => void;
   createLink: (newLink: Link) => void;
   deleteLink: (linkId: string) => void;
-  isLoading: boolean;
-  error: string;
+  setLinks: (links: Link[]) => void;
 }

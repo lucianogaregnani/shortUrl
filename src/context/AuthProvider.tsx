@@ -24,7 +24,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isAuthLocal) {
-      console.log({ isAuthLocal });
       localStorage.setItem("isAuth", "false");
     }
     if (isAuth && !accesToken) {

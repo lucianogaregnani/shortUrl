@@ -5,25 +5,20 @@ import useLinks from "../../../hooks/useLinks";
 import Check from "../../../icons/Check";
 import Clipboard from "../../../icons/Clipboard";
 import { Link } from "../../../types/Link";
-import useAuth from "../../../hooks/useAuth";
-import { linkApi } from "../../../services/linksApi";
 
 const PAGE_URL = import.meta.env.PAGE_URL || "http://localhost:5173/";
 
 function LinkCard({ longLink, shortLink, _id }: Link) {
-  const { updateLink, deleteLink } = useLinks();
+  const { renovateLink, removeLink } = useLinks();
   const [link, setLink] = useState(longLink);
   const { copy, copyText } = useCopy({ text: `${PAGE_URL}${shortLink}` });
-  const { accesToken } = useAuth();
 
-  const handleDelete = async () => {
-    deleteLink(_id);
-    await linkApi.remove(accesToken, _id);
+  const handleDelete = () => {
+    removeLink(_id);
   };
 
-  const handleUpdate = async () => {
-    updateLink(longLink, _id);
-    await linkApi.update(accesToken, link, _id);
+  const handleUpdate = () => {
+    renovateLink(link, _id);
   };
 
   return (

@@ -1,6 +1,5 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { LinkContextType } from "../types/LinksContext";
-import useFetch from "../hooks/useFetch";
 import { Link } from "../types/Link";
 
 export const LinksContext = createContext<LinkContextType>({
@@ -8,43 +7,38 @@ export const LinksContext = createContext<LinkContextType>({
   updateLink: () => {},
   deleteLink: () => {},
   createLink: () => {},
-  isLoading: true,
-  error: "",
+  setLinks: () => {},
 });
 
 function LinksProvider({ children }: { children: React.ReactNode }) {
-  const { data, isLoading, error, changeData } = useFetch<Link[]>({
-    method: "GET",
-    url: "/link",
-  });
+  const [links, setLinks] = useState<Link[]>([]);
 
   const updateLink = (longLink: string, linkId: string) => {
-    const linkFinded = data?.find((link) => link._id === linkId);
-    const filteredLinks = data?.filter((link) => link._id !== linkId);
+    const linksAux = links;
 
-    if (linkFinded) {
-      linkFinded.longLink = longLink;
-      changeData([...(filteredLinks || []), linkFinded]);
-    }
+    linksAux.forEach((link) => {
+      if (link._id === linkId) link.longLink = longLink;
+    });
+
+    setLinks(linksAux);
   };
 
   const createLink = (link: Link) => {
-    changeData([...(data || []), link]);
+    setLinks([...links, link]);
   };
 
   const deleteLink = (linkId: string) => {
-    changeData(data?.filter((link) => link._id !== linkId));
+    setLinks(links.filter((link) => link._id !== linkId));
   };
 
   return (
     <LinksContext.Provider
       value={{
-        links: data || [],
+        links,
         updateLink,
         deleteLink,
         createLink,
-        isLoading,
-        error,
+        setLinks,
       }}
     >
       {children}
