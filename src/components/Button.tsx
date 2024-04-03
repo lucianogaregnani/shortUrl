@@ -7,9 +7,9 @@ type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
 
 const buttonColors = {
   red: {
-    text: "text-red-500",
-    border: "border-red-500",
-    bgHover: "hover:bg-red-500",
+    text: "text-red-400",
+    border: "border-red-400",
+    bgHover: "hover:bg-red-400",
   },
   green: {
     text: "text-green-400",

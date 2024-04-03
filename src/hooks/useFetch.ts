@@ -10,6 +10,7 @@ interface AxiosHookResponse<T> {
   data: T | undefined;
   error: string;
   isLoading: boolean;
+  changeData: (newData: T | undefined) => void;
 }
 
 function useFetch<T>(params: AxiosRequestConfig): AxiosHookResponse<T> {
@@ -31,7 +32,11 @@ function useFetch<T>(params: AxiosRequestConfig): AxiosHookResponse<T> {
     }
   }, [accesToken]);
 
-  return { isLoading, error, data };
+  const changeData = (newData: T | undefined) => {
+    setData(newData);
+  };
+
+  return { isLoading, error, data, changeData };
 }
 
 export default useFetch;

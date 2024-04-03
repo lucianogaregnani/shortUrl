@@ -6,21 +6,24 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import "./index.css";
 import Register from "./pages/Register";
 import RedirectRoute from "./components/RedirectRoute";
+import LinksProvider from "./context/LinksProvider";
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<RedirectRoute />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <LinksProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<RedirectRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<Dashboard />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </LinksProvider>
     </AuthProvider>
   );
 }
