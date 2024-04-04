@@ -8,7 +8,7 @@ interface InputProps {
 
 const sizes = {
   large: {
-    input: "w-[20rem]",
+    input: "w-[25rem]",
     error: "w-[10rem]",
   },
 };
