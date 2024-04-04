@@ -6,7 +6,7 @@ import Check from "../../../icons/Check";
 import Clipboard from "../../../icons/Clipboard";
 import { Link } from "../../../types/Link";
 
-const PAGE_URL = import.meta.env.PAGE_URL || "http://localhost:5173/";
+const PAGE_URL = import.meta.env.VITE_PAGE_URL || "http://localhost:5173/";
 
 function LinkCard({ longLink, shortLink, _id }: Link) {
   const { renovateLink, removeLink, error } = useLinks();
