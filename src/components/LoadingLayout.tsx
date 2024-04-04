@@ -5,7 +5,11 @@ function LoadingLayout({
   children: React.ReactNode;
   isLoading: boolean;
 }) {
-  return isLoading ? <main>Cargando...</main> : <>{children}</>;
+  return isLoading ? (
+    <main className="text-2xl font-semibold">Cargando...</main>
+  ) : (
+    <>{children}</>
+  );
 }
 
 export default LoadingLayout;

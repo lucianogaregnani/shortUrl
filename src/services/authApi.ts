@@ -23,4 +23,9 @@ export const authApi = {
 
     return data;
   },
+  logOut: async () => {
+    const { data } = await axiosInstance.get("/auth/logout");
+
+    return data;
+  },
 };
