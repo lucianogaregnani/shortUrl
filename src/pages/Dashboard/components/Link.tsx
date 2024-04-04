@@ -9,7 +9,7 @@ import { Link } from "../../../types/Link";
 const PAGE_URL = import.meta.env.PAGE_URL || "http://localhost:5173/";
 
 function LinkCard({ longLink, shortLink, _id }: Link) {
-  const { renovateLink, removeLink } = useLinks();
+  const { renovateLink, removeLink, error } = useLinks();
   const [link, setLink] = useState(longLink);
   const { copy, copyText } = useCopy({ text: `${PAGE_URL}${shortLink}` });
 
@@ -23,12 +23,20 @@ function LinkCard({ longLink, shortLink, _id }: Link) {
 
   return (
     <article className="flex flex-col border-[1px] border-slate-200 items-center gap-4 p-3 rounded-2xl">
-      <input
-        type="text"
-        value={link}
-        className="border-2 w-full p-2 rounded-full"
-        onChange={(e) => setLink(e.target.value)}
-      />
+      <div className="relative">
+        {error && (
+          <p className="text-sm text-red-400 font-bold absolute bottom-[-0.77rem] left-0 right-0 mx-auto w-[7rem] border-[1px] rounded-2xl border-red-500 bg-white text-center">
+            {error}
+          </p>
+        )}
+        <input
+          type="text"
+          value={link}
+          className="border-2 w-full p-2 rounded-full"
+          onChange={(e) => setLink(e.target.value)}
+        />
+      </div>
+
       <button
         onClick={copyText}
         className="flex items-center gap-1 bg-indigo-500 p-2 rounded-lg text-white font-bold relative"

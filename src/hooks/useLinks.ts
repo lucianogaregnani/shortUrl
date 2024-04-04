@@ -12,6 +12,18 @@ function useLinks() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        setError("");
+      }, 3000);
+
+      return () => {
+        clearTimeout(timeOut);
+      };
+    }
+  }, [error]);
+
+  useEffect(() => {
     if (accesToken && links.length === 0) {
       setIsLoading(true);
       linkApi
@@ -20,31 +32,37 @@ function useLinks() {
           setLinks(res);
           setIsLoading(false);
         })
-        .catch((err) => setError(err));
+        .catch((err) => setError(err.response.data.error));
     }
   }, [accesToken]);
 
   const addLink = (longLink: string) => {
-    setIsLoading(true);
     linkApi
       .create(accesToken, longLink)
       .then((res) => createLink(res))
-      .catch((err) => setError(err));
+      .catch((err) => setError(err.response.data.error));
   };
 
   const renovateLink = (newLongLink: string, linkId: string) => {
-    setIsLoading(true);
-    linkApi
-      .update(accesToken, linkId, newLongLink)
-      .then(() => updateLink(newLongLink, linkId))
-      .catch((err) => setError(err));
+    const linkFinded = links.find((link) => link._id === linkId);
+
+    if (linkFinded && linkFinded?.longLink !== newLongLink) {
+      linkApi
+        .update(accesToken, linkId, newLongLink)
+        .then(() => {
+          updateLink(newLongLink, linkId);
+        })
+        .catch((err) => {
+          setError(err.response.data.error);
+        });
+    }
   };
 
   const removeLink = (linkId: string) => {
     linkApi
       .remove(accesToken, linkId)
       .then(() => deleteLink(linkId))
-      .catch((err) => setError(err));
+      .catch((err) => setError(err.response.data.error));
   };
 
   return { links, isLoading, error, removeLink, addLink, renovateLink };
