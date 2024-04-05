@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import RedirectRoute from "./components/RedirectRoute";
 import LinksProvider from "./context/LinksProvider";
 import RedirectLink from "./pages/RedirectLink";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -16,12 +17,13 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path=":shortLink" element={<RedirectLink />} />
+            <Route path="/" element={<Home />} />
             <Route element={<RedirectRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Route>
             <Route element={<ProtectedRoute />}>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
           </Routes>
         </BrowserRouter>

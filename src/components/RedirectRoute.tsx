@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth";
 function RedirectRoute() {
   const { isAuth } = useAuth();
 
-  return isAuth ? <Navigate to="/" replace /> : <Outlet />;
+  return isAuth ? <Navigate to="/dashboard" replace /> : <Outlet />;
 }
 
 export default RedirectRoute;
