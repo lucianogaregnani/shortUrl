@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <main className="p-3 md:p-20 h-screen gap-3 flex flex-col text-center items-center justify-center">
+    <main className="p-10 md:p-20 h-screen gap-3 flex flex-col text-center items-center justify-center">
       <header className="absolute top-0 left-0 w-14">
         <Link
           to="https://www.linkedin.com/in/luciano-garegnani/"
@@ -63,8 +63,8 @@ function Home() {
       <div className="absolute bottom-0 w-full z-[-10]">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
           <path
-            fill="#0099ff"
-            fill-opacity="1"
+            fill="#4338ca"
+            fillOpacity="1"
             d="M0,32L60,48C120,64,240,96,360,128C480,160,600,192,720,202.7C840,213,960,203,1080,170.7C1200,139,1320,85,1380,58.7L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
           ></path>
         </svg>
