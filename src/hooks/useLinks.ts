@@ -8,7 +8,7 @@ function useLinks() {
   const { links, updateLink, createLink, deleteLink, setLinks } =
     useContext(LinksContext);
   const { accesToken } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -25,7 +25,6 @@ function useLinks() {
 
   useEffect(() => {
     if (accesToken && links.length === 0) {
-      setIsLoading(true);
       linkApi
         .getAll(accesToken)
         .then((res) => {
