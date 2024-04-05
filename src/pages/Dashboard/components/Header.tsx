@@ -4,10 +4,12 @@ import Button from "../../../components/Button";
 import Icon from "../../../icons/Icon";
 import useAuth from "../../../hooks/useAuth";
 import { authApi } from "../../../services/authApi";
+import { useState } from "react";
 
 function Header() {
   const { changeIsAuth } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleSignOut = async () => {
     try {
@@ -16,7 +18,10 @@ function Header() {
       changeIsAuth(false);
       navigate("/login");
     } catch (error: any) {
-      console.log(error);
+      setError("There was an error");
+      setTimeout(() => {
+        setError("");
+      }, 4000);
     }
   };
 
@@ -24,7 +29,7 @@ function Header() {
     <header className="p-2 flex justify-between items-center">
       <Icon />
       <Button color="indigo" onClick={handleSignOut}>
-        Sign out
+        {error ? error : <span>Sign out</span>}
       </Button>
     </header>
   );
